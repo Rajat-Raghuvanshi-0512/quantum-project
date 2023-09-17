@@ -1,15 +1,5 @@
 import React from 'react';
 
-type ModalProps = {
-  children: React.ReactNode;
-  isOpen: boolean;
-  closeModal: React.MouseEventHandler<HTMLButtonElement>;
-  submitText: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-  title: string;
-  closeText: string;
-};
-
 const Modal = ({
   children,
   isOpen,
@@ -18,7 +8,7 @@ const Modal = ({
   onClick,
   title,
   closeText,
-}: ModalProps) => {
+}) => {
   return (
     <>
       <div

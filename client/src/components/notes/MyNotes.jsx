@@ -5,24 +5,28 @@ import DeleteNoteBtnModal from './DeleteNoteBtnModal';
 import UpdateNoteBtnModal from './UpdateNoteBtnModal';
 import { ImCross } from 'react-icons/im';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { clearErrors } from '../../redux/slices/userSlice';
+import {
+  clearDeletedState,
+  clearUpdatedState,
+} from '../../redux/slices/notesSlice';
 export default function MyNotes() {
-  const dispatch = useAppDispatch();
-  const { notes, isUpdated, isDeleted, error } = useAppSelector((s) => s.notes);
+  const dispatch = useDispatch();
+  const { notes, isUpdated, isDeleted, error } = useSelector((s) => s.notes);
 
   useEffect(() => {
     if (isUpdated) {
       toast.success('Note Updated');
-      dispatch({ type: 'EDIT_NOTE_RESET' });
+      dispatch(clearUpdatedState());
     }
     if (isDeleted) {
       toast.success('Note Deleted');
-      dispatch({ type: 'DELETE_NOTE_RESET' });
+      dispatch(clearDeletedState());
     }
     if (error) {
       toast.error(error);
-      dispatch({ type: 'CLEAR_ERRORS' });
+      dispatch(clearErrors());
     }
     dispatch(getAllNotes());
   }, [isDeleted, isUpdated, dispatch, error]);

@@ -7,9 +7,7 @@ export const registerUser = createAsyncThunk(
   'user/signup',
   async (userData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${base}/api/auth/signup`, userData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const { data } = await axios.post(`${base}/api/auth/signup`, userData);
       return { data: data.user, isAuthenticated: true };
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -23,9 +21,7 @@ export const loginUser = createAsyncThunk(
   'user/login',
   async (userData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${base}/api/auth/login`, userData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const { data } = await axios.post(`${base}/api/auth/login`, userData);
       return { data: data.user, isAuthenticated: true };
     } catch (err) {
       if (axios.isAxiosError(err)) {

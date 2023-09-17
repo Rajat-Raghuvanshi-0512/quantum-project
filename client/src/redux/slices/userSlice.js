@@ -1,15 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getUser, loginUser, registerUser } from '../actions/userActions';
-
-interface userState {
-  loading: boolean;
-  error: string | null;
-  user: unknown;
-  isAuthenticated: boolean | undefined;
-}
-
 // Define the initial state using that type
-const initialState: userState = {
+const initialState = {
   loading: false,
   error: null,
   user: null,

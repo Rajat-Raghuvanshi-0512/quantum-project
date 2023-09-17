@@ -10,7 +10,7 @@ export const addNote = createAsyncThunk(
       const { data } = await axios.post(`${base}/api/notes/add`, userData, {
         headers: { 'Content-Type': 'application/json' },
       });
-      return { data: data.user, isAuthenticated: true };
+      return { data: data.data, message: data.message, success: data.success };
     } catch (err) {
       if (axios.isAxiosError(err)) {
         return rejectWithValue(err?.response?.data.error);
@@ -24,7 +24,7 @@ export const getAllNotes = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`${base}/api/notes/fetch`);
-      return { data: data.user, isAuthenticated: true };
+      return { data: data.data, message: data.message, success: data.success };
     } catch (err) {
       if (axios.isAxiosError(err)) {
         return rejectWithValue(err?.response?.data.error);
@@ -35,13 +35,10 @@ export const getAllNotes = createAsyncThunk(
 
 export const updateNote = createAsyncThunk(
   'note/update',
-  async (notesData, { rejectWithValue }) => {
+  async ({ id, note }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(
-        `${base}/api/notes/update/${notesData._id}`,
-        notesData
-      );
-      return { data: data.user, isAuthenticated: data.success };
+      const { data } = await axios.put(`${base}/api/notes/update/${id}`, note);
+      return { data: data.user, message: data.message, success: data.success };
     } catch (err) {
       if (axios.isAxiosError(err)) {
         return rejectWithValue(err?.response?.data.error);
@@ -52,10 +49,10 @@ export const updateNote = createAsyncThunk(
 
 export const deleteNote = createAsyncThunk(
   'note/delete',
-  async (notesData, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(`${base}/api/${notesData._id}`);
-      return data.message;
+      const { data } = await axios.delete(`${base}/api/notes/delete/${id}`);
+      return { message: data.message, success: data.success };
     } catch (err) {
       if (axios.isAxiosError(err)) {
         return rejectWithValue(err?.response?.data.error);

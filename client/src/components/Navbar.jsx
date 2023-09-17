@@ -3,14 +3,14 @@ import { useMediaQuery, useModal } from '../misc/custom-hooks';
 import { logoutUser } from '../redux/actions/userActions';
 import Drawer from './Drawer';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Navbar() {
   const location = useLocation();
-  const { isAuthenticated } = useAppSelector((s) => s.user);
+  const { isAuthenticated } = useSelector((s) => s.user);
   const { isOpen, closeModal, openModal } = useModal();
   const isTablet = useMediaQuery('(max-width:700px)');
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = () => {
     closeModal();

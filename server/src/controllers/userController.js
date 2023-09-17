@@ -24,7 +24,7 @@ exports.signup = catchAsyncErrors(async (req, res) => {
   saveToCookie(newUser, 201, res);
 });
 
-exports.login = catchAsyncErrors(async (req, res) => {
+exports.login = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
   const UserFound = await User.findOne({ email });
   if (!UserFound) {

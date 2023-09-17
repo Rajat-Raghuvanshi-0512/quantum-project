@@ -2,17 +2,18 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../redux/actions/userActions';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearErrors } from '../../redux/slices/userSlice';
 
 function Login() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { isAuthenticated, error, loading } = useAppSelector((s) => s.user);
+  const dispatch = useDispatch();
+  const { isAuthenticated, error, loading } = useSelector((s) => s.user);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const LoginMe = async (e: React.FormEvent<HTMLFormElement>) => {
+  const LoginMe = async (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
   };
@@ -20,7 +21,7 @@ function Login() {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch({ type: 'CLEAR_ERRORS' });
+      dispatch(clearErrors());
     }
     if (loading === false && isAuthenticated === true) {
       toast.success('Logged In');

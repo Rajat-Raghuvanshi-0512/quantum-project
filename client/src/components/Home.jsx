@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../redux/hooks';
 
 export default function Home() {
-  const { isAuthenticated } = useAppSelector((s) => s.user);
+  const { isAuthenticated } = useSelector((s) => s.user);
   const navigate = useNavigate();
   useEffect(() => {
     if (isAuthenticated) {

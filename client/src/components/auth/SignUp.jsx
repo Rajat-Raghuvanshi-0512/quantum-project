@@ -3,11 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../../redux/actions/userActions';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 
 function SignUp() {
-  const dispatch = useAppDispatch();
-  const { isAuthenticated, error } = useAppSelector((s) => s.user);
+  const dispatch = useDispatch();
+  const { isAuthenticated, error } = useSelector((s) => s.user);
   const navigate = useNavigate();
   const [details, setDetails] = useState({
     name: '',
@@ -16,23 +16,24 @@ function SignUp() {
     cpassword: '',
   });
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setDetails({ ...details, [name]: value });
   };
 
-  const PostData = async (e: React.FormEvent) => {
+  const PostData = async (e) => {
+    const { name, email, password } = details;
     e.preventDefault();
     if (details.password !== details.cpassword) {
       return toast.error('Passwords donot match');
     }
-    dispatch(registerUser(details));
+    dispatch(registerUser({ name, email, password }));
   };
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch({ type: 'CLEAR_ERRORS' });
+      dispatch(clearErrors());
     }
     if (isAuthenticated) {
       toast.success('Logged In');

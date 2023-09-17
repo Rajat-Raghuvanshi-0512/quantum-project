@@ -3,28 +3,26 @@ import { useModal } from '../../misc/custom-hooks';
 import Modal from '../Modal';
 import { MdEdit } from 'react-icons/md';
 import { updateNote } from '../../redux/actions/notesAction';
-import { useAppDispatch } from '../../redux/hooks';
+import { useDispatch } from 'react-redux';
 
 const UpdateNoteBtnModal = ({ note: prevNote }) => {
   const { isOpen, openModal, closeModal } = useModal();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const [note, setNote] = useState({
     title: '',
     desc: '',
     tag: '',
   });
-  const handleInput = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setNote({ ...note, [name]: value });
   };
 
   const handleEdit = () => {
-    dispatch(updateNote(prevNote._id, note));
+    console.log(note);
+    dispatch(updateNote({ id: prevNote._id, note }));
+
     closeModal();
   };
   useEffect(() => {

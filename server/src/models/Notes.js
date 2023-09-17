@@ -18,7 +18,7 @@ const NotesSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'mynotes-user',
+    ref: 'user',
   },
 });
 module.exports = mongoose.model('notes', NotesSchema);

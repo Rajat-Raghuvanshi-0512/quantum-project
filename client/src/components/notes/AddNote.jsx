@@ -2,27 +2,25 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { addNote } from '../../redux/actions/notesAction';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearErrors } from '../../redux/slices/userSlice';
+import { clearAddedState } from '../../redux/slices/notesSlice';
 
 export default function AddNote() {
-  const dispatch = useAppDispatch();
-  const { isAdded, error } = useAppSelector((s) => s.notes);
+  const dispatch = useDispatch();
+  const { isAdded, error } = useSelector((s) => s.notes);
 
   const [note, setNote] = useState({
     title: '',
     desc: '',
     tag: '',
   });
-  const handleInput = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setNote({ ...note, [name]: value });
   };
-  const handleOnClick = (e: React.FormEvent) => {
+  const handleOnClick = (e) => {
     e.preventDefault();
     dispatch(addNote(note));
     setNote({ title: '', desc: '', tag: '' });
@@ -30,11 +28,11 @@ export default function AddNote() {
   useEffect(() => {
     if (isAdded) {
       toast.success('Note Added');
-      dispatch({ type: 'ADD_NOTE_RESET' });
+      dispatch(clearAddedState());
     }
     if (error) {
       toast.error(error);
-      dispatch({ type: 'CLEAR_ERRORS' });
+      dispatch(clearErrors());
     }
   }, [isAdded, error, dispatch]);
   return (

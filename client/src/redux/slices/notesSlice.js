@@ -6,18 +6,8 @@ import {
   updateNote,
 } from '../actions/notesAction';
 
-interface notesState {
-  loading: boolean;
-  error: string | null;
-  isAdded: boolean | null;
-  isUpdated: boolean | null;
-  isDeleted: boolean | null;
-  isAuthenticated: boolean | undefined;
-  notes: [];
-}
-
 // Define the initial state using that type
-const initialState: notesState = {
+const initialState = {
   loading: false,
   error: null,
   isAdded: null,
@@ -33,6 +23,15 @@ const noteSlice = createSlice({
   reducers: {
     clearErrors: (state) => {
       state.error = null;
+    },
+    clearUpdatedState: (state) => {
+      state.isUpdated = null;
+    },
+    clearDeletedState: (state) => {
+      state.isDeleted = null;
+    },
+    clearAddedState: (state) => {
+      state.isAdded = null;
     },
   },
   extraReducers: (builder) => {
@@ -53,8 +52,7 @@ const noteSlice = createSlice({
     });
     builder.addCase(getAllNotes.fulfilled, (state, action) => {
       state.loading = false;
-      state.isUpdated = action?.payload?.data;
-      state.isAuthenticated = action?.payload?.isAuthenticated;
+      state.notes = action?.payload?.data;
     });
     builder.addCase(getAllNotes.rejected, (state, action) => {
       state.loading = false;
@@ -65,8 +63,7 @@ const noteSlice = createSlice({
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
       state.loading = false;
-      state.isUpdated = action?.payload?.data;
-      state.isAuthenticated = action?.payload?.isAuthenticated;
+      state.isUpdated = action?.payload?.success;
     });
     builder.addCase(updateNote.rejected, (state) => {
       state.loading = false;
@@ -76,8 +73,7 @@ const noteSlice = createSlice({
     });
     builder.addCase(deleteNote.fulfilled, (state, action) => {
       state.loading = false;
-      state.isDeleted = action?.payload?.data;
-      state.isAuthenticated = action?.payload?.isAuthenticated;
+      state.isDeleted = action?.payload?.success;
     });
     builder.addCase(deleteNote.rejected, (state) => {
       state.loading = false;
@@ -85,5 +81,10 @@ const noteSlice = createSlice({
   },
 });
 
-export const { clearErrors } = noteSlice.actions;
+export const {
+  clearErrors,
+  clearAddedState,
+  clearDeletedState,
+  clearUpdatedState,
+} = noteSlice.actions;
 export const notesReducer = noteSlice.reducer;

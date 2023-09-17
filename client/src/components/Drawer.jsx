@@ -1,20 +1,12 @@
 import React from 'react';
 
-type DrawerProps = {
-  children: React.ReactNode;
-  isOpen: boolean;
-  onClose: React.MouseEventHandler<HTMLButtonElement>;
-  title: string;
-  left?: boolean;
-};
-
 const Drawer = ({
   isOpen,
   onClose,
   children,
   left,
   title = 'Drawer title',
-}: DrawerProps) => {
+}) => {
   return (
     <div
       className={`${

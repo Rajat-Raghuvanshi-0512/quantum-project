@@ -2,11 +2,11 @@ import { useModal } from '../../misc/custom-hooks';
 import Modal from '../Modal';
 import { MdDelete } from 'react-icons/md';
 import { deleteNote } from '../../redux/actions/notesAction';
-import { useAppDispatch } from '../../redux/hooks';
+import { useDispatch } from 'react-redux';
 
 const DeleteNoteBtnModal = ({ note }) => {
   const { isOpen, openModal, closeModal } = useModal();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const handleEdit = () => {
     dispatch(deleteNote(note._id));
     closeModal();

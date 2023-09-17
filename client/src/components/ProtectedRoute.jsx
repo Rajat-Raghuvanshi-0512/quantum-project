@@ -1,8 +1,8 @@
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAppSelector } from '../redux/hooks';
 
 const ProtectedRoute = () => {
-  const { isAuthenticated, loading } = useAppSelector((state) => state.user);
+  const { isAuthenticated, loading } = useSelector((state) => state.user);
   return (
     <>
       {loading === false &&
