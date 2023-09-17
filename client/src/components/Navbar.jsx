@@ -12,10 +12,10 @@ export default function Navbar() {
   const isTablet = useMediaQuery('(max-width:700px)');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogout = () => {
+  const handleLogout = async () => {
     closeModal();
+    await dispatch(logoutUser());
     navigate('/');
-    dispatch(logoutUser());
   };
 
   return (

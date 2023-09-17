@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUser, loginUser, registerUser } from '../actions/userActions';
+import {
+  getUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+} from '../actions/userActions';
 // Define the initial state using that type
 const initialState = {
   loading: false,
@@ -51,6 +56,13 @@ const userSlice = createSlice({
     });
     builder.addCase(getUser.rejected, (state) => {
       state.loading = false;
+    });
+    builder.addCase(logoutUser.pending, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      state.loading = false;
+      state.isAuthenticated = false;
     });
   },
 });
