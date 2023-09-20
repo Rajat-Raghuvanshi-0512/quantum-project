@@ -3,11 +3,9 @@ import { useAppSelector } from '../redux/hooks';
 
 const ProtectedRoute = () => {
   const { isAuthenticated, loading } = useAppSelector((state) => state.user);
+  if (loading) return <div>Loading...</div>;
   return (
-    <>
-      {loading === false &&
-        (isAuthenticated === true ? <Outlet /> : <Navigate to="/login" />)}
-    </>
+    <>{isAuthenticated === true ? <Outlet /> : <Navigate to="/login" />}</>
   );
 };
 

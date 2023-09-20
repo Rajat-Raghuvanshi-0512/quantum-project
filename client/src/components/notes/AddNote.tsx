@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { addNote } from '../../redux/actions/notesAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { clearAddedState, clearErrors } from '../../redux/slices/notesSlice';
 
 export default function AddNote() {
   const dispatch = useAppDispatch();
@@ -25,16 +26,16 @@ export default function AddNote() {
   const handleOnClick = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(addNote(note));
-    setNote({ title: '', desc: '', tag: '' });
   };
   useEffect(() => {
     if (isAdded) {
       toast.success('Note Added');
-      dispatch({ type: 'ADD_NOTE_RESET' });
+      dispatch(clearAddedState());
+      setNote({ title: '', desc: '', tag: '' });
     }
     if (error) {
       toast.error(error);
-      dispatch({ type: 'CLEAR_ERRORS' });
+      dispatch(clearErrors());
     }
   }, [isAdded, error, dispatch]);
   return (

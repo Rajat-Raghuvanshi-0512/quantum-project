@@ -4,10 +4,11 @@ import { registerUser } from '../../redux/actions/userActions';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { clearErrors } from '../../redux/slices/userSlice';
 
 function SignUp() {
   const dispatch = useAppDispatch();
-  const { isAuthenticated, error } = useAppSelector((s) => s.user);
+  const { isAuthenticated, error, loading } = useAppSelector((s) => s.user);
   const navigate = useNavigate();
   const [details, setDetails] = useState({
     name: '',
@@ -32,13 +33,13 @@ function SignUp() {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch({ type: 'CLEAR_ERRORS' });
+      dispatch(clearErrors());
     }
-    if (isAuthenticated) {
+    if (loading === false && isAuthenticated === true) {
       toast.success('Logged In');
       navigate('/');
     }
-  }, [isAuthenticated, navigate, error, dispatch]);
+  }, [isAuthenticated, navigate, loading, error, dispatch]);
   return (
     <>
       <div className="flex justify-center items-center mt-12">

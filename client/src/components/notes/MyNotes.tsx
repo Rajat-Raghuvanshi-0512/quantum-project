@@ -6,6 +6,11 @@ import UpdateNoteBtnModal from './UpdateNoteBtnModal';
 import { ImCross } from 'react-icons/im';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  clearDeletedState,
+  clearErrors,
+  clearUpdatedState,
+} from '../../redux/slices/notesSlice';
 
 export default function MyNotes() {
   const dispatch = useAppDispatch();
@@ -14,15 +19,15 @@ export default function MyNotes() {
   useEffect(() => {
     if (isUpdated) {
       toast.success('Note Updated');
-      dispatch({ type: 'EDIT_NOTE_RESET' });
+      dispatch(clearUpdatedState());
     }
     if (isDeleted) {
       toast.success('Note Deleted');
-      dispatch({ type: 'DELETE_NOTE_RESET' });
+      dispatch(clearDeletedState());
     }
     if (error) {
       toast.error(error);
-      dispatch({ type: 'CLEAR_ERRORS' });
+      dispatch(clearErrors());
     }
     dispatch(getAllNotes());
   }, [isDeleted, isUpdated, dispatch, error]);

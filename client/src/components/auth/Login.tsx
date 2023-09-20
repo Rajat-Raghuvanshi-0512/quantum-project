@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../redux/actions/userActions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { clearErrors } from '../../redux/slices/userSlice';
 
 function Login() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ function Login() {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch({ type: 'CLEAR_ERRORS' });
+      dispatch(clearErrors());
     }
     if (loading === false && isAuthenticated === true) {
       toast.success('Logged In');

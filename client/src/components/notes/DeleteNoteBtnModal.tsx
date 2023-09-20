@@ -3,12 +3,13 @@ import Modal from '../Modal';
 import { MdDelete } from 'react-icons/md';
 import { deleteNote } from '../../redux/actions/notesAction';
 import { useAppDispatch } from '../../redux/hooks';
+import { Note } from '../../misc/types';
 
-const DeleteNoteBtnModal = ({ note }) => {
+const DeleteNoteBtnModal = ({ note }: { note: Note }) => {
   const { isOpen, openModal, closeModal } = useModal();
   const dispatch = useAppDispatch();
   const handleEdit = () => {
-    dispatch(deleteNote(note._id));
+    dispatch(deleteNote(note._id!));
     closeModal();
   };
 
@@ -29,7 +30,9 @@ const DeleteNoteBtnModal = ({ note }) => {
         submitText="Confirm"
         title="Delete Modal"
       >
-        <div className="p-4">Are you sure you want to delete this note?</div>
+        <div className="p-4 text-white">
+          Are you sure you want to delete this note?
+        </div>
       </Modal>
     </>
   );

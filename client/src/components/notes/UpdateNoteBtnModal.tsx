@@ -4,8 +4,9 @@ import Modal from '../Modal';
 import { MdEdit } from 'react-icons/md';
 import { updateNote } from '../../redux/actions/notesAction';
 import { useAppDispatch } from '../../redux/hooks';
+import { Note } from '../../misc/types';
 
-const UpdateNoteBtnModal = ({ note: prevNote }) => {
+const UpdateNoteBtnModal = ({ note: prevNote }: { note: Note }) => {
   const { isOpen, openModal, closeModal } = useModal();
   const dispatch = useAppDispatch();
   const [note, setNote] = useState({
@@ -24,7 +25,7 @@ const UpdateNoteBtnModal = ({ note: prevNote }) => {
   };
 
   const handleEdit = () => {
-    dispatch(updateNote(prevNote._id, note));
+    dispatch(updateNote({ id: prevNote._id!, note }));
     closeModal();
   };
   useEffect(() => {
@@ -50,14 +51,14 @@ const UpdateNoteBtnModal = ({ note: prevNote }) => {
         submitText="Save Changes"
         title="Edit Modal"
       >
-        <form method="post" className=" my-5">
+        <form method="post" className="text-white my-5">
           <div className="mb-3 flex flex-col px-5">
             <label htmlFor="title" className="form-label">
               Title<span className="text-danger">*</span>
             </label>
             <input
               type="text"
-              className="form-control p-2 rounded"
+              className="form-control p-2 rounded text-black"
               placeholder="Enter Title*"
               minLength={5}
               required
@@ -80,7 +81,7 @@ const UpdateNoteBtnModal = ({ note: prevNote }) => {
               id="desc"
               rows={4}
               placeholder="Enter Tag"
-              className="p-2 rounded resize-none"
+              className="p-2 rounded text-black resize-none"
             />
           </div>
           <div className="mb-3 flex flex-col px-5">
@@ -89,7 +90,7 @@ const UpdateNoteBtnModal = ({ note: prevNote }) => {
             </label>
             <input
               type="text"
-              className="form-control p-2 rounded"
+              className="form-control p-2 rounded text-black"
               placeholder="Enter Tag"
               name="tag"
               onChange={handleInput}

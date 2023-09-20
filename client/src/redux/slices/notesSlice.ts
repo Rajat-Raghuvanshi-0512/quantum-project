@@ -34,6 +34,15 @@ const noteSlice = createSlice({
     clearErrors: (state) => {
       state.error = null;
     },
+    clearUpdatedState: (state) => {
+      state.isUpdated = null;
+    },
+    clearDeletedState: (state) => {
+      state.isDeleted = null;
+    },
+    clearAddedState: (state) => {
+      state.isAdded = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addNote.pending, (state) => {
@@ -42,48 +51,51 @@ const noteSlice = createSlice({
     builder.addCase(addNote.fulfilled, (state, action) => {
       state.loading = false;
       state.isAdded = action?.payload?.success;
-      state.isAuthenticated = action?.payload?.isAuthenticated;
     });
     builder.addCase(addNote.rejected, (state, action) => {
       state.loading = false;
-      state.error = action?.payload;
+      state.error = String(action?.payload);
     });
     builder.addCase(getAllNotes.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(getAllNotes.fulfilled, (state, action) => {
       state.loading = false;
-      state.isUpdated = action?.payload?.data;
-      state.isAuthenticated = action?.payload?.isAuthenticated;
+      state.notes = action?.payload?.data;
     });
     builder.addCase(getAllNotes.rejected, (state, action) => {
       state.loading = false;
-      state.error = action?.payload;
+      state.error = String(action?.payload);
     });
     builder.addCase(updateNote.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
       state.loading = false;
-      state.isUpdated = action?.payload?.data;
-      state.isAuthenticated = action?.payload?.isAuthenticated;
+      state.isUpdated = action?.payload?.success;
     });
-    builder.addCase(updateNote.rejected, (state) => {
+    builder.addCase(updateNote.rejected, (state, action) => {
       state.loading = false;
+      state.error = String(action?.payload);
     });
     builder.addCase(deleteNote.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(deleteNote.fulfilled, (state, action) => {
       state.loading = false;
-      state.isDeleted = action?.payload?.data;
-      state.isAuthenticated = action?.payload?.isAuthenticated;
+      state.isDeleted = action?.payload?.success;
     });
-    builder.addCase(deleteNote.rejected, (state) => {
+    builder.addCase(deleteNote.rejected, (state, action) => {
       state.loading = false;
+      state.error = String(action?.payload);
     });
   },
 });
 
-export const { clearErrors } = noteSlice.actions;
+export const {
+  clearErrors,
+  clearAddedState,
+  clearDeletedState,
+  clearUpdatedState,
+} = noteSlice.actions;
 export const notesReducer = noteSlice.reducer;

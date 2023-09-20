@@ -2,11 +2,9 @@ import { useCallback, useState, useEffect } from 'react';
 
 export const useModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [modalProps, setModalProps] = useState({});
 
-  const openModal = (props) => {
+  const openModal = () => {
     setIsOpen(true);
-    setModalProps(props);
   };
 
   const closeModal = useCallback(() => {
@@ -17,7 +15,6 @@ export const useModal = () => {
     isOpen,
     openModal,
     closeModal,
-    modalProps,
   };
 };
 

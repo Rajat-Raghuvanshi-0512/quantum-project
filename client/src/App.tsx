@@ -8,14 +8,16 @@ import AddNote from './components/notes/AddNote';
 import MyNotes from './components/notes/MyNotes';
 import Home from './components/Home';
 import Navbar from './components/Navbar';
-import { useAppDispatch } from './redux/hooks';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
 
 const App = () => {
   const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((s) => s.user);
   useEffect(() => {
     dispatch(getUser());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  if (loading) return <div>Hi</div>;
   return (
     <>
       <Navbar />

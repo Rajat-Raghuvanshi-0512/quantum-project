@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUser, loginUser, registerUser } from '../actions/userActions';
+import {
+  getUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+} from '../actions/userActions';
 
 interface userState {
   loading: boolean;
@@ -10,7 +15,7 @@ interface userState {
 
 // Define the initial state using that type
 const initialState: userState = {
-  loading: false,
+  loading: true,
   error: null,
   user: null,
   isAuthenticated: false,
@@ -35,7 +40,7 @@ const userSlice = createSlice({
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
-      state.error = action?.payload;
+      state.error = String(action?.payload);
     });
     builder.addCase(registerUser.pending, (state) => {
       state.loading = true;
@@ -47,7 +52,7 @@ const userSlice = createSlice({
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.loading = false;
-      state.error = action?.payload;
+      state.error = String(action?.payload);
     });
     builder.addCase(getUser.pending, (state) => {
       state.loading = true;
@@ -59,6 +64,14 @@ const userSlice = createSlice({
     });
     builder.addCase(getUser.rejected, (state) => {
       state.loading = false;
+    });
+    builder.addCase(logoutUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.user = null;
     });
   },
 });
